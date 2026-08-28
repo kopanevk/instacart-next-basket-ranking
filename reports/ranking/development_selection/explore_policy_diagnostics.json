@@ -1,0 +1,43 @@
+{
+  "hardware": {
+    "logical_cpus": 10,
+    "machine": "arm64",
+    "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+    "python": "3.14.6"
+  },
+  "run": {
+    "component_k": 150,
+    "model": "/Users/mac/PycharmProjects/instacart-next-basket-ranking/reports/ranking/full/models/classifier.cbm",
+    "peak_rss_mib": 5719.640625,
+    "seed": 42,
+    "training_performed": false,
+    "wall_seconds": 49.234888499999215
+  },
+  "segmentation": {
+    "u_reorder_ratio_low_upper": 0.2884615361690521,
+    "u_reorder_ratio_medium_upper": 0.5199999809265137,
+    "users_by_segment": {
+      "high-repeat": 8729,
+      "low-repeat": 8751,
+      "medium-repeat": 8762
+    }
+  },
+  "timings_seconds": {
+    "assemble_ranking_features": 1.8177020420007466,
+    "attach_groups_and_labels": 0.9126932079998369,
+    "build_candidate_pool": 1.4200891670006968,
+    "build_feature_tables": 4.289215250002599,
+    "classifier_pool": 0.9168096670000523,
+    "classifier_predict": 0.16561108400128433,
+    "classify_candidates": 2.4770189999981085,
+    "fit_co_visitation": 6.134728000000905,
+    "load_data": 2.9015776249980263,
+    "materialize_history": 1.6881797090027248,
+    "policy_0": 3.321119541000371,
+    "policy_1": 3.334600207999756,
+    "policy_2": 3.306349250000494,
+    "policy_3": 3.3112236249980924,
+    "retrieve_covis": 4.318016583001736,
+    "retrieve_personal": 0.3244049589993665
+  }
+}

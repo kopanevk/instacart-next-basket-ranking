@@ -1,0 +1,14 @@
+{
+  "checkpoint_recoverable": false,
+  "fit_runtime_at_last_log_seconds": 1348.0,
+  "interrupted_by_user": true,
+  "iteration_cap": 300,
+  "last_logged_iteration_zero_based": 90,
+  "learning_rate": 0.15,
+  "reason": "MVP stop requested after the internal validation curve reached a practical plateau",
+  "reported_best_candidate_relative_ndcg_at_10": 0.5262702,
+  "reported_best_iteration_zero_based": 86,
+  "reported_best_trees": 87,
+  "snapshot_policy": "allow_writing_files=False",
+  "status": "INTERRUPTED_NO_MODEL_SNAPSHOT"
+}

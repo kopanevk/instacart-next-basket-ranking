@@ -1,0 +1,12 @@
+iteration_zero_based,trees,candidate_relative_validation_ndcg_at_10,source
+0,1,0.3040147,catboost_stdout
+10,11,0.5140484,catboost_stdout
+20,21,0.5204216,catboost_stdout
+30,31,0.5225845,catboost_stdout
+40,41,0.5235587,catboost_stdout
+50,51,0.5243872,catboost_stdout
+60,61,0.5249358,catboost_stdout
+70,71,0.5255430,catboost_stdout
+80,81,0.5261218,catboost_stdout
+86,87,0.5262702,catboost_best_reported_at_iteration_90
+90,91,0.5262422,catboost_stdout

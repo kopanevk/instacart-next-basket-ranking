@@ -1,0 +1,25 @@
+policy,k,metric,segment,value,groups
+unconstrained,10,ndcg,overall,0.4275657716993198,26242
+unconstrained,10,recall,overall,0.3573364237739905,26242
+unconstrained,10,ndcg,repeat,0.5619979262446178,24388
+unconstrained,10,recall,repeat,0.5998101039607556,24388
+unconstrained,10,ndcg,explore,0.00128014731874668,21349
+unconstrained,10,recall,explore,0.0029092423489036783,21349
+>=1 explore,10,ndcg,overall,0.4175294346631001,26242
+>=1 explore,10,recall,overall,0.3443131160148484,26242
+>=1 explore,10,ndcg,repeat,0.5461753256757251,24388
+>=1 explore,10,recall,repeat,0.5716062705546966,24388
+>=1 explore,10,ndcg,explore,0.005345940479725208,21349
+>=1 explore,10,recall,explore,0.01148640937275173,21349
+>=2 explore,10,ndcg,overall,0.40531649204771936,26242
+>=2 explore,10,recall,overall,0.32845451132172027,26242
+>=2 explore,10,ndcg,repeat,0.5284542977464446,24388
+>=2 explore,10,recall,repeat,0.5409191345493604,24388
+>=2 explore,10,ndcg,explore,0.008383404479605951,21349
+>=2 explore,10,recall,explore,0.01747540023699026,21349
+>=3 explore,10,ndcg,overall,0.39076075273994315,26242
+>=3 explore,10,recall,overall,0.30999089771250965,26242
+>=3 explore,10,ndcg,repeat,0.5077682509131197,24388
+>=3 explore,10,recall,repeat,0.5059997092157325,24388
+>=3 explore,10,ndcg,explore,0.011147835105109792,21349
+>=3 explore,10,recall,explore,0.022620571315667526,21349

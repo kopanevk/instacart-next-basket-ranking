@@ -1,0 +1,16 @@
+{
+  "covis_rows_at_max_budget": 26186172,
+  "personal_rows_at_max_budget": 7689632,
+  "retained_covis_edges": 4406026,
+  "run": {
+    "batch_size": 2000,
+    "budgets": [
+      100,
+      150,
+      200
+    ],
+    "max_neighbors": 100,
+    "peak_rss_mib": 5278.453125,
+    "wall_seconds": 102.09597341700282
+  }
+}

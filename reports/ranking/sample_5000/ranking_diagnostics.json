@@ -1,0 +1,59 @@
+{
+  "dataset": {
+    "all_negative_groups": 276,
+    "candidate_rows": 1030410,
+    "groups": 5000,
+    "mean_candidates_per_group": 206.082,
+    "memory_mib": 70.75303077697754,
+    "positive_rate": 0.032478333867101444,
+    "positive_rows": 33466,
+    "train_rows": 824560,
+    "train_users": 4000,
+    "validation_rows": 205850,
+    "validation_users": 1000
+  },
+  "hardware": {
+    "logical_cpus": 10,
+    "machine": "arm64",
+    "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+    "python": "3.14.6"
+  },
+  "run": {
+    "all_evaluation_users": 131209,
+    "component_k": 150,
+    "depth": 7,
+    "iterations": 20,
+    "learning_rate": 0.15,
+    "max_neighbors": 100,
+    "peak_rss_mib": 2401.9375,
+    "sample_users": 5000,
+    "seed": 42,
+    "wall_seconds": 32.61143954200088
+  },
+  "timings_seconds": {
+    "CatBoostRanker ALL_fit": 5.64477770799931,
+    "CatBoostRanker ALL_train_pool": 0.17843925000124727,
+    "CatBoostRanker ALL_validation_pool": 0.04705591699894285,
+    "CatBoostRanker BASE + CLOCK_fit": 5.997782667000138,
+    "CatBoostRanker BASE + CLOCK_train_pool": 0.18212954199771048,
+    "CatBoostRanker BASE + CLOCK_validation_pool": 0.04698791700138827,
+    "CatBoostRanker BASE + INTERVAL_fit": 5.91859100000147,
+    "CatBoostRanker BASE + INTERVAL_train_pool": 0.1780890409972926,
+    "CatBoostRanker BASE + INTERVAL_validation_pool": 0.04612962499959394,
+    "CatBoostRanker BASE_fit": 5.726147209003102,
+    "CatBoostRanker BASE_train_pool": 0.17420274999676622,
+    "CatBoostRanker BASE_validation_pool": 0.04421008400095161,
+    "assemble_ranking_features": 0.16777695799828507,
+    "attach_groups_and_labels": 0.0904947919989354,
+    "build_candidate_pool": 0.12763995900240843,
+    "build_feature_tables": 0.6894013749988517,
+    "classifier_fit": 0.9619110000021465,
+    "classifier_train_pool": 0.16399933299908298,
+    "classifier_validation_pool": 0.04352629099957994,
+    "fit_co_visitation": 0.39793666699915775,
+    "load_data": 3.013264834000438,
+    "materialize_history": 0.6235885829992185,
+    "retrieve_covis": 0.6532469999983732,
+    "retrieve_personal": 0.046504750000167405
+  }
+}

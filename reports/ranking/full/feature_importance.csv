@@ -1,0 +1,17 @@
+feature,importance
+ui_orders_since_last,19.458520590517583
+ui_order_share,18.341267130943343
+u_reorder_ratio,13.373874393458802
+covis_score,11.038582903604208
+i_reorder_rate,9.521487620985637
+i_n_orders,9.404425903299874
+ui_n_orders,7.966941543956621
+ui_in_last_basket,4.536050577870756
+repeat_score,3.871386895907112
+days_since_prior_order,1.4680979852174827
+u_mean_basket_size,0.6539407632685844
+department_id,0.3654236909700167
+aisle_id,0.0
+u_n_orders,0.0
+order_hour_of_day,0.0
+order_dow,0.0

@@ -1,165 +1,146 @@
 # Instacart Next-Basket Ranking
 
-Compact research project for predicting a user's next Instacart basket. The
-central question is how much of a target basket can be recovered from personal
-repeat purchases, and how much requires new-item exploration.
+## Problem
 
-## Data
+Predict the products in a user's next Instacart basket. The project separates
+the easy but dominant **repeat** problem from **explore** products the user has
+never bought, then measures how retrieval and ranking allocate a limited
+Top-10.
 
-The project uses the Kaggle **Instacart Market Basket Analysis** tables:
-`orders`, `order_products__prior`, `order_products__train`, `products`, `aisles`,
-and `departments`. Add that dataset to a Kaggle Notebook, set
-`INSTACART_DATA_DIR`, or place the CSV/CSV.ZIP files under `data/raw/`. No
-absolute local path is embedded in the code.
+## Dataset
+
+The project uses the Kaggle **Instacart Market Basket Analysis** tables. Place
+the six CSV/CSV.ZIP files under `data/raw/`, set `INSTACART_DATA_DIR`, or attach
+the dataset in a Kaggle environment. Raw data is not tracked.
+
+Final results cover all 131,209 users whose last order has `eval_set == "train"`.
 
 ## Evaluation protocol
 
-Only users whose last order has `eval_set == "train"` are evaluated.
-
-| Stage | Target basket | Visible history | Label source |
+| Stage | Target | Visible history | Labels |
 |---|---:|---:|---|
-| development / ranker | `n-1` | orders `<= n-2` | `order_products__prior` |
-| final locked test | `n` | orders `<= n-1` | `order_products__train` |
+| Development | order `n-1` | orders `<= n-2` | `order_products__prior` |
+| Final holdout | order `n` | orders `<= n-1` | `order_products__train` |
 
-All candidate and feature aggregates must be rebuilt for the applicable cutoff.
-In particular, development popularity cannot include order `n-1`.
+Every history-dependent candidate score and feature is rebuilt at its stage's
+cutoff. Ranking metrics use the complete target basket, so retrieval misses
+remain misses. The final table was opened once, only after the pipeline and
+120-tree classifier were frozen; it was never used for tuning.
 
-There is a deliberate methodological choice in the first notebook: although a
-target-`n` repeat/explore analysis was initially requested, inspecting those
-labels would make the final test non-untouched. Therefore
-`01_eda_and_split.ipynb` performs target-dependent EDA on `n-1` only and does not
-load `order_products__train`. The latter is reserved for one final evaluation
-after the pipeline and decisions are frozen.
+## Frozen pipeline
 
-## Repeat vs explore
+```text
+top-150 Personal Repeat ─┐
+                         ├─ score-preserving union
+top-150 Co-vis Explore ──┘
+                         -> 16 leakage-safe features
+                         -> CatBoostClassifier
+                         -> unconstrained probability ranking
+                         -> Top-10
+```
 
-- **repeat item**: the product occurs in that user's visible history;
-- **explore item**: the product has never occurred in that user's visible history.
+Classifier parameters: 120 trees, depth 7, learning rate 0.15, Logloss, seed
+42. The final model is trained on all development ranking examples.
 
-The first notebook quantifies this decomposition, including its relationship to
-history length, target-basket size, and the interval before the target order.
+## Main experiments
 
-## Full-data retrieval baseline
+Retrieval established the structure of the task:
 
-Measured locally on 2026-08-28 using all 131,209 development users. Metrics are
-macro Recall@K against target `n-1`; every retrieval source uses history only
-through `n-2`.
+- Personal Repeat recovered 0.9844 of repeat targets at K=100.
+- Co-visitation improved explore Recall@100 from 0.1572 for popularity to
+  0.2015, a 28.2% relative gain.
+- Repeat + Co-visitation reached 0.6090 overall Recall@100.
 
-| Method | Recall@10 | Recall@50 | Recall@100 |
-|---|---:|---:|---:|
-| Global Popularity | 0.0698 | 0.1539 | 0.2169 |
-| Personal Repeat | 0.3330 | 0.5448 | 0.5817 |
-| Explore Popularity | 0.0164 | 0.0435 | 0.0624 |
-| Co-visitation Explore | 0.0206 | 0.0549 | 0.0784 |
-| Repeat + Explore Popularity | 0.2447 | 0.4992 | 0.5957 |
-| Repeat + Co-visitation | 0.2472 | 0.5089 | **0.6090** |
+The ranking candidate sweep selected K=150/source: development candidate recall
+was 0.6843 overall, 0.9961 repeat, and 0.2440 explore. On the same validation
+users and features:
 
-Key segment results at K=100: Personal Repeat recovers 0.9844 of repeat
-targets; Explore Popularity recovers 0.1572 of explore targets and co-visitation
-recovers 0.2015. Thus co-visitation improves explore recall by 0.0443 absolute,
-or 28.2% relative. The best hybrid gains 0.1000 overall recall from K=50 to
-K=100. That was the retrieval-list operating point; the later ranking-specific
-candidate-budget sweep below tests larger per-source pools before freezing K=150.
-
-Hardware: Apple M5 (10 CPU cores), 16 GB RAM, arm64, Python 3.14.6. The full run
-took 78.5 seconds and peaked at approximately 5.20 GiB RSS. Sparse `X.T @ X`
-itself took 3.92 seconds; no swap or algorithm change was needed. See the
-[full benchmark report](reports/retrieval_benchmark_2026-08-28.md) for segment
-tables, sample diagnostics, and memory details.
-
-## Full-data ranking baseline
-
-The ranking experiment uses the score-preserving union of the top-150 Personal
-Repeat and top-150 Co-visitation Explore candidates. After deduplication this is
-27.0 million rows (205.9 candidates/user on average). Its validation candidate
-recall ceiling is 0.6843 overall, 0.9961 for repeat items, and 0.2440 for explore
-items.
-
-All methods below use the same candidates, 16 compact features, full-target
-metrics, and a deterministic 80/20 user split (26,242 validation users).
-
-| Method | nDCG@10 | Recall@10 | Repeat Recall@10 | Explore Recall@10 |
+| Development method | nDCG@10 | Recall@10 | Repeat R@10 | Explore R@10 |
 |---|---:|---:|---:|---:|
 | Heuristic 2:1 | 0.3487 | 0.2908 | 0.4703 | **0.0229** |
 | **CatBoostClassifier** | **0.4276** | **0.3573** | **0.5998** | 0.0029 |
-| CatBoostRanker YetiRank | 0.4255 | 0.3558 | 0.5978 | 0.0023 |
+| YetiRank, 30 trees | 0.4255 | 0.3558 | 0.5978 | 0.0023 |
 
-The classifier wins this measured comparison; YetiRank trails it by 0.0021
-nDCG@10, so a listwise objective did not provide incremental value under the
-small fixed tuning budget. Learned models strongly prioritize repeat purchases
-and nearly remove explore items from Top-10. The best context variant is
-BASE + `days_since_prior_order` at 0.4260 nDCG@10; clock fields add essentially
-nothing.
+A longer YetiRank run approached an internal-metric plateau near tree 87, but
+its interrupted checkpoint was not recoverable for full-target evaluation and
+is not part of the MVP.
 
-A single controlled YetiRank convergence check confirmed that 30 trees were
-too few: candidate-relative validation nDCG@10 rose from 0.5226 around tree 31
-to a best observed 0.5263 at 87 trees, then was essentially flat at tree 91.
-The run was stopped there for MVP scope. No training snapshot was enabled, so
-the interrupted 87-tree model could not be evaluated with the project's
-full-target metric and was not used for model selection. The best fully
-evaluated development model remains the classifier.
+A controlled explore quota exposed the product trade-off. Forcing one explore
+item raised development Explore Recall@10 from 0.0029 to 0.0115 but reduced
+nDCG@10 from 0.4276 to 0.4175. Larger quotas were progressively more expensive,
+so the frozen policy remains unconstrained.
 
-The classifier retrieves from a pool with 0.2440 explore recall but allocates
-almost no Top-10 positions to relevant explore products. A deterministic quota
-shows the offline price of discovery:
+## Final holdout results
 
-| Policy | nDCG@10 | Recall@10 | Repeat R@10 | Explore R@10 | ΔnDCG@10 |
-|---|---:|---:|---:|---:|---:|
-| **Unconstrained** | **0.4276** | **0.3573** | **0.5998** | 0.0029 | — |
-| ≥1 explore | 0.4175 | 0.3443 | 0.5716 | 0.0115 | -0.0100 |
-| ≥2 explore | 0.4053 | 0.3285 | 0.5409 | 0.0175 | -0.0222 |
-| ≥3 explore | 0.3908 | 0.3100 | 0.5060 | **0.0226** | -0.0368 |
+The frozen MVP was evaluated once on order `n`:
 
-One forced explore position is cheaper for low-repeat users (-0.0048 nDCG@10)
-than for high-repeat users (-0.0152), but the global quota still gives too
-little absolute explore recall for its relevance loss. The frozen development
-MVP is therefore **CatBoostClassifier + unconstrained model-score ranking**.
+| Metric | Development | **Final** | Delta |
+|---|---:|---:|---:|
+| Candidate Recall | 0.684273 | **0.691448** | +0.007175 |
+| nDCG@10 | 0.427566 | **0.426937** | -0.000629 |
+| Recall@10 | 0.357336 | **0.353088** | -0.004248 |
+| Repeat Recall@10 | 0.599810 | **0.577058** | -0.022752 |
+| Explore Recall@10 | 0.002909 | **0.001801** | -0.001108 |
 
-The full ranking run took 31.2 minutes and peaked at 8.48 GiB RSS on the same
-Apple M5 / 16 GB machine. Groupwise YetiRank training, rather than feature
-building or candidate materialization, is the CPU bottleneck. See the
-[full ranking report](reports/ranking_experiment_2026-08-28.md) for the candidate
-budget sweep, Top-20 and segment results, ablation, feature importance, and
-runtime breakdown. The follow-up
-[development selection report](reports/development_selection_2026-08-28.md)
-contains the convergence trace and complete explore-policy trade-off.
+Final Recall@20 is 0.463408. Candidate ceilings are 0.995621 for repeat and
+0.243265 for explore.
 
-## Current pipeline
+Overall generalization is strong: final nDCG@10 is only 0.15% below
+development. The central failure also generalizes—retrieval finds roughly 24%
+of explore targets, but the unconstrained Top-10 recovers only 0.18%.
 
-```text
-personal repeat / popularity + co-visitation retrieval
-                         -> score-preserving candidate union (K=150/source)
-                         -> leakage-safe features
-                         -> frozen CatBoostClassifier
-                         -> unconstrained model-score Top-10
-```
+## Key findings
 
-The current project includes interpretable retrieval baselines, a pointwise
-classifier, and a group-aware listwise ranker. Final order `n` remains locked.
+1. **Repeat behavior carries the system.** A simple frequency-ranked personal
+   history is extremely strong, and final repeat candidate recall is 0.9956.
+2. **Co-visitation adds useful retrieval breadth.** It beats global popularity
+   for unseen items and preserves a 0.2433 explore ceiling on final holdout.
+3. **ML ranking adds ordering quality.** The classifier improved development
+   nDCG@10 by 0.0788 over the transparent heuristic and retained 0.4269 on final.
+4. **Offline relevance conflicts with discovery.** The classifier spends scarce
+   positions on likely repeats. Simple quotas restore only modest explore recall
+   while sacrificing repeat recall and nDCG.
+5. **Difficulty is heterogeneous.** Final nDCG@10 ranges from 0.2889 for
+   low-repeat users to 0.5431 for high-repeat users. Large baskets have only
+   0.00019 Explore Recall@10.
 
-## Run
+## Limitations
+
+- No prices, promotions, inventory, or impression/exposure logs.
+- Offline purchases are relevance labels, not causal recommendation effects.
+- Absolute timestamps are unavailable; clock context assumes the prediction
+  moment is known.
+- The explore quota has no product utility calibration, so it is analysis only.
+- Final labels are now open and cannot support further model decisions.
+
+## Reproducibility
 
 ```bash
 python3 -m pip install -r requirements.txt
 python3 -m pytest -q
-jupyter notebook notebooks/01_eda_and_split.ipynb
-jupyter notebook notebooks/02_baselines_and_candidates.ipynb
-jupyter notebook notebooks/03_features_and_ranking.ipynb
-python3 scripts/run_retrieval_benchmark.py --data-dir data/raw --sample-users 0 --output-dir reports/full
-python3 scripts/run_candidate_budget.py --data-dir data/raw --output-dir reports/ranking
-python3 scripts/run_ranking_experiment.py --data-dir data/raw --component-k 150 --sample-users 0 --output-dir reports/ranking/full
-python3 scripts/run_explore_policy.py --data-dir data/raw --output-dir reports/ranking/development_selection
+
+python3 scripts/run_retrieval_benchmark.py \
+  --data-dir data/raw --sample-users 0 --output-dir reports/full
+
+python3 scripts/run_candidate_budget.py \
+  --data-dir data/raw --output-dir reports/ranking
+
+python3 scripts/run_ranking_experiment.py \
+  --data-dir data/raw --component-k 150 --sample-users 0 \
+  --output-dir reports/ranking/full
+
+# Single-use command: refuses to overwrite an existing final_metrics.csv.
+python3 scripts/run_final_evaluation.py \
+  --data-dir data/raw --output-dir reports/final
 ```
 
-The notebooks are designed for **Restart Kernel -> Run All**. Heavy reusable
-logic lives in `src/` and the experiment scripts.
+Notebooks `01`–`03` document development; `04_final_evaluation.ipynb` reads the
+immutable final artifacts without reloading raw labels. Full details:
 
-## Dataset limitations
+- [retrieval benchmark](reports/retrieval_benchmark_2026-08-28.md)
+- [ranking experiment](reports/ranking_experiment_2026-08-28.md)
+- [development selection](reports/development_selection_2026-08-28.md)
+- [final holdout evaluation](reports/final_evaluation_2026-08-28.md)
 
-- There are no absolute timestamps, so only within-user chronology is known.
-- There are no impression/exposure logs; non-purchases are not observed dislikes.
-- Prices, stock availability, and promotions are unavailable.
-- `order_dow` and `order_hour_of_day` are valid context only if the order start
-  time is assumed known at prediction time.
-- Offline repeat/explore labels describe purchases, not the causal value of a
-  recommendation.
+Final run hardware: Apple M5, 10 CPU cores, 16 GB RAM, Python 3.14.6. Runtime
+was 9.01 minutes with 6.01 GiB peak RSS.
