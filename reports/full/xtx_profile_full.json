@@ -1,0 +1,17 @@
+{
+  "peak_rss_mib": 3773.96875,
+  "script_wall_seconds": 10.699510291997285,
+  "x_csr_mib": 154.42724227905273,
+  "x_nnz": 19283003,
+  "x_shape": [
+    1916168,
+    49371
+  ],
+  "xtx_csr_mib_before_pruning": 443.36914825439453,
+  "xtx_nnz_including_diagonal": 58088595,
+  "xtx_seconds": 3.9245047090007574,
+  "xtx_shape": [
+    49371,
+    49371
+  ]
+}

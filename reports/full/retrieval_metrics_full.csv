@@ -1,0 +1,73 @@
+method,k,segment,recall,users
+Global Popularity,10,overall,0.06984218552082398,131209
+Global Popularity,10,repeat,0.09867982890736114,121861
+Global Popularity,10,explore,0.033308388266240434,106981
+Global Popularity,20,overall,0.0955721045909401,131209
+Global Popularity,20,repeat,0.1295247862215033,121861
+Global Popularity,20,explore,0.05318096014910114,106981
+Global Popularity,50,overall,0.15389459491556395,131209
+Global Popularity,50,repeat,0.19770042418405853,121861
+Global Popularity,50,explore,0.09785773094218424,106981
+Global Popularity,100,overall,0.21694590359223462,131209
+Global Popularity,100,repeat,0.2706259730098162,121861
+Global Popularity,100,explore,0.1485542832814667,106981
+Personal Repeat,10,overall,0.3329578608683243,131209
+Personal Repeat,10,repeat,0.559587905980437,121861
+Personal Repeat,10,explore,0.0,106981
+Personal Repeat,20,overall,0.437404429555976,131209
+Personal Repeat,20,repeat,0.7418676296139511,121861
+Personal Repeat,20,explore,0.0,106981
+Personal Repeat,50,overall,0.5447599226730951,131209
+Personal Repeat,50,repeat,0.9249666191012863,121861
+Personal Repeat,50,explore,0.0,106981
+Personal Repeat,100,overall,0.5817154148702901,131209
+Personal Repeat,100,repeat,0.9844101330845391,121861
+Personal Repeat,100,explore,0.0,106981
+Explore Popularity,10,overall,0.016443887323121385,131209
+Explore Popularity,10,repeat,0.0,121861
+Explore Popularity,10,explore,0.040958592163836675,106981
+Explore Popularity,20,overall,0.024769563032195914,131209
+Explore Popularity,20,repeat,0.0,121861
+Explore Popularity,20,explore,0.06283331101102509,106981
+Explore Popularity,50,overall,0.043527746062878236,131209
+Explore Popularity,50,repeat,0.0,121861
+Explore Popularity,50,explore,0.11048714135666306,106981
+Explore Popularity,100,overall,0.06238608634757043,131209
+Explore Popularity,100,repeat,0.0,121861
+Explore Popularity,100,explore,0.15719245803019666,106981
+Repeat + Explore Popularity,10,overall,0.24466175536612406,131209
+Repeat + Explore Popularity,10,repeat,0.39068658380647125,121861
+Repeat + Explore Popularity,10,explore,0.02552243716093004,106981
+Repeat + Explore Popularity,20,overall,0.34972582406893615,131209
+Repeat + Explore Popularity,20,repeat,0.559587905980437,121861
+Repeat + Explore Popularity,20,explore,0.04151100402277969,106981
+Repeat + Explore Popularity,50,overall,0.4992026510925099,131209
+Repeat + Explore Popularity,50,repeat,0.7959968518989307,121861
+Repeat + Explore Popularity,50,explore,0.07629937888173233,106981
+Repeat + Explore Popularity,100,overall,0.5957329172448442,131209
+Repeat + Explore Popularity,100,repeat,0.9249666191012863,121861
+Repeat + Explore Popularity,100,explore,0.12541564874158406,106981
+Co-visitation Explore,10,overall,0.020584085346146728,131209
+Co-visitation Explore,10,repeat,0.0,121861
+Co-visitation Explore,10,explore,0.05276056645985547,106981
+Co-visitation Explore,20,overall,0.03204788810172896,131209
+Co-visitation Explore,20,repeat,0.0,121861
+Co-visitation Explore,20,explore,0.08230209023760225,106981
+Co-visitation Explore,50,overall,0.05493770154315295,131209
+Co-visitation Explore,50,repeat,0.0,121861
+Co-visitation Explore,50,explore,0.14132805425831346,106981
+Co-visitation Explore,100,overall,0.07839779258960101,131209
+Co-visitation Explore,100,repeat,0.0,121861
+Co-visitation Explore,100,explore,0.20147456813886996,106981
+Repeat + Co-visitation,10,overall,0.24724873475250245,131209
+Repeat + Co-visitation,10,repeat,0.39068658380647125,121861
+Repeat + Co-visitation,10,explore,0.03297110183775909,106981
+Repeat + Co-visitation,20,overall,0.35419189643488114,131209
+Repeat + Co-visitation,20,repeat,0.559587905980437,121861
+Repeat + Co-visitation,20,explore,0.053947776326378864,106981
+Repeat + Co-visitation,50,overall,0.5089450391132193,131209
+Repeat + Co-visitation,50,repeat,0.7959968518989307,121861
+Repeat + Co-visitation,50,explore,0.10132988581054679,106981
+Repeat + Co-visitation,100,overall,0.6089823842896916,131209
+Repeat + Co-visitation,100,repeat,0.9249666191012863,121861
+Repeat + Co-visitation,100,explore,0.16088755880136663,106981

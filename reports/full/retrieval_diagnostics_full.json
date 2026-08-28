@@ -1,0 +1,88 @@
+{
+  "candidates": {
+    "Co-visitation Explore": {
+      "memory_mib": 212.72068214416504,
+      "rows": 13120800,
+      "users": 131208
+    },
+    "Explore Popularity": {
+      "memory_mib": 212.72230052947998,
+      "rows": 13120900,
+      "users": 131209
+    },
+    "Global Popularity": {
+      "memory_mib": 212.72229957580566,
+      "rows": 13120900,
+      "users": 131209
+    },
+    "Personal Repeat": {
+      "memory_mib": 143.63358306884766,
+      "rows": 6548284,
+      "users": 131209
+    },
+    "Repeat + Co-visitation": {
+      "memory_mib": 162.6688756942749,
+      "rows": 13120801,
+      "users": 131209
+    },
+    "Repeat + Explore Popularity": {
+      "memory_mib": 162.67010021209717,
+      "rows": 13120900,
+      "users": 131209
+    }
+  },
+  "co_visitation": {
+    "memory_mib": 33.99198532104492,
+    "nnz": 4406026,
+    "shape": [
+      49371,
+      49371
+    ]
+  },
+  "hardware": {
+    "logical_cpus": 10,
+    "machine": "arm64",
+    "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+    "processor": "arm",
+    "python": "3.14.6"
+  },
+  "history": {
+    "all_evaluation_users": 131209,
+    "evaluation_users": 131209,
+    "history_interactions": 19283003,
+    "history_items": 49371,
+    "history_memory_mib": 312.6251058578491,
+    "history_orders": 1916168,
+    "history_unique_order_items": 19283003,
+    "target_repeat_share": 0.5865504331164072,
+    "target_rows": 1358988
+  },
+  "run": {
+    "batch_size": 2000,
+    "max_k": 100,
+    "max_neighbors": 100,
+    "metric_ks": [
+      10,
+      20,
+      50,
+      100
+    ],
+    "mode": "full",
+    "peak_rss_mib": 5197.453125,
+    "sample_users": 0,
+    "seed": 42,
+    "wall_seconds": 78.5018439589985
+  },
+  "timings_seconds": {
+    "fit_co_visitation": 6.879821792001167,
+    "fit_global_popularity": 0.06699224999829312,
+    "load_data": 2.968240665999474,
+    "materialize_history": 1.775061457999982,
+    "retrieve_co_visitation": 18.952957374996913,
+    "retrieve_explore_popularity": 3.46362204199977,
+    "retrieve_global_popularity": 0.4424336250012857,
+    "retrieve_personal_repeat": 2.9174151659972267,
+    "union_repeat_co_visitation": 10.897783708998759,
+    "union_repeat_popularity": 9.989902541001356
+  }
+}
