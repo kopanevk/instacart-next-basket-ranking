@@ -58,7 +58,8 @@ Key segment results at K=100: Personal Repeat recovers 0.9844 of repeat
 targets; Explore Popularity recovers 0.1572 of explore targets and co-visitation
 recovers 0.2015. Thus co-visitation improves explore recall by 0.0443 absolute,
 or 28.2% relative. The best hybrid gains 0.1000 overall recall from K=50 to
-K=100, so **K=100** is selected for the future ranker among the tested values.
+K=100. That was the retrieval-list operating point; the later ranking-specific
+candidate-budget sweep below tests larger per-source pools before freezing K=150.
 
 Hardware: Apple M5 (10 CPU cores), 16 GB RAM, arm64, Python 3.14.6. The full run
 took 78.5 seconds and peaked at approximately 5.20 GiB RSS. Sparse `X.T @ X`
@@ -66,17 +67,75 @@ itself took 3.92 seconds; no swap or algorithm change was needed. See the
 [full benchmark report](reports/retrieval_benchmark_2026-08-28.md) for segment
 tables, sample diagnostics, and memory details.
 
-## Planned pipeline
+## Full-data ranking baseline
+
+The ranking experiment uses the score-preserving union of the top-150 Personal
+Repeat and top-150 Co-visitation Explore candidates. After deduplication this is
+27.0 million rows (205.9 candidates/user on average). Its validation candidate
+recall ceiling is 0.6843 overall, 0.9961 for repeat items, and 0.2440 for explore
+items.
+
+All methods below use the same candidates, 16 compact features, full-target
+metrics, and a deterministic 80/20 user split (26,242 validation users).
+
+| Method | nDCG@10 | Recall@10 | Repeat Recall@10 | Explore Recall@10 |
+|---|---:|---:|---:|---:|
+| Heuristic 2:1 | 0.3487 | 0.2908 | 0.4703 | **0.0229** |
+| **CatBoostClassifier** | **0.4276** | **0.3573** | **0.5998** | 0.0029 |
+| CatBoostRanker YetiRank | 0.4255 | 0.3558 | 0.5978 | 0.0023 |
+
+The classifier wins this measured comparison; YetiRank trails it by 0.0021
+nDCG@10, so a listwise objective did not provide incremental value under the
+small fixed tuning budget. Learned models strongly prioritize repeat purchases
+and nearly remove explore items from Top-10. The best context variant is
+BASE + `days_since_prior_order` at 0.4260 nDCG@10; clock fields add essentially
+nothing.
+
+A single controlled YetiRank convergence check confirmed that 30 trees were
+too few: candidate-relative validation nDCG@10 rose from 0.5226 around tree 31
+to a best observed 0.5263 at 87 trees, then was essentially flat at tree 91.
+The run was stopped there for MVP scope. No training snapshot was enabled, so
+the interrupted 87-tree model could not be evaluated with the project's
+full-target metric and was not used for model selection. The best fully
+evaluated development model remains the classifier.
+
+The classifier retrieves from a pool with 0.2440 explore recall but allocates
+almost no Top-10 positions to relevant explore products. A deterministic quota
+shows the offline price of discovery:
+
+| Policy | nDCG@10 | Recall@10 | Repeat R@10 | Explore R@10 | ΔnDCG@10 |
+|---|---:|---:|---:|---:|---:|
+| **Unconstrained** | **0.4276** | **0.3573** | **0.5998** | 0.0029 | — |
+| ≥1 explore | 0.4175 | 0.3443 | 0.5716 | 0.0115 | -0.0100 |
+| ≥2 explore | 0.4053 | 0.3285 | 0.5409 | 0.0175 | -0.0222 |
+| ≥3 explore | 0.3908 | 0.3100 | 0.5060 | **0.0226** | -0.0368 |
+
+One forced explore position is cheaper for low-repeat users (-0.0048 nDCG@10)
+than for high-repeat users (-0.0152), but the global quota still gives too
+little absolute explore recall for its relevance loss. The frozen development
+MVP is therefore **CatBoostClassifier + unconstrained model-score ranking**.
+
+The full ranking run took 31.2 minutes and peaked at 8.48 GiB RSS on the same
+Apple M5 / 16 GB machine. Groupwise YetiRank training, rather than feature
+building or candidate materialization, is the CPU bottleneck. See the
+[full ranking report](reports/ranking_experiment_2026-08-28.md) for the candidate
+budget sweep, Top-20 and segment results, ablation, feature importance, and
+runtime breakdown. The follow-up
+[development selection report](reports/development_selection_2026-08-28.md)
+contains the convergence trace and complete explore-policy trade-off.
+
+## Current pipeline
 
 ```text
 personal repeat / popularity + co-visitation retrieval
-                         -> candidates -> features
-                         -> classifier vs ranker -> Top-K
+                         -> score-preserving candidate union (K=150/source)
+                         -> leakage-safe features
+                         -> frozen CatBoostClassifier
+                         -> unconstrained model-score Top-10
 ```
 
-The current project includes interpretable popularity, personal-repeat, and
-sparse cosine-normalized co-visitation retrieval baselines. It still contains no
-learned ranking model.
+The current project includes interpretable retrieval baselines, a pointwise
+classifier, and a group-aware listwise ranker. Final order `n` remains locked.
 
 ## Run
 
@@ -85,11 +144,15 @@ python3 -m pip install -r requirements.txt
 python3 -m pytest -q
 jupyter notebook notebooks/01_eda_and_split.ipynb
 jupyter notebook notebooks/02_baselines_and_candidates.ipynb
+jupyter notebook notebooks/03_features_and_ranking.ipynb
 python3 scripts/run_retrieval_benchmark.py --data-dir data/raw --sample-users 0 --output-dir reports/full
+python3 scripts/run_candidate_budget.py --data-dir data/raw --output-dir reports/ranking
+python3 scripts/run_ranking_experiment.py --data-dir data/raw --component-k 150 --sample-users 0 --output-dir reports/ranking/full
+python3 scripts/run_explore_policy.py --data-dir data/raw --output-dir reports/ranking/development_selection
 ```
 
-The notebook is designed for **Restart Kernel -> Run All**. It loads every large
-table it uses once.
+The notebooks are designed for **Restart Kernel -> Run All**. Heavy reusable
+logic lives in `src/` and the experiment scripts.
 
 ## Dataset limitations
 
