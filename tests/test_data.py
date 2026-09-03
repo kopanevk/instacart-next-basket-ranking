@@ -5,6 +5,7 @@ import pandas as pd
 from src.data import TABLES, load_table, resolve_data_dir
 
 
+
 def _write_minimal_dataset(directory, *, zipped=False):
     rows = {
         "orders": {
