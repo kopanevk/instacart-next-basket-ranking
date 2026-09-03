@@ -1,0 +1,16 @@
+evaluation,method,k,metric,segment,value,groups
+candidate_ceiling,Frozen candidate union,,recall,overall,0.691448000330849,131209
+candidate_ceiling,Frozen candidate union,,recall,repeat,0.9956214846417598,122607
+candidate_ceiling,Frozen candidate union,,recall,explore,0.24326464273557813,107008
+ranking,CatBoostClassifier,10,ndcg,overall,0.42693745974684355,131209
+ranking,CatBoostClassifier,10,recall,overall,0.3530884632001941,131209
+ranking,CatBoostClassifier,10,ndcg,repeat,0.5495131640430043,122607
+ranking,CatBoostClassifier,10,recall,repeat,0.5770581977056989,122607
+ranking,CatBoostClassifier,10,ndcg,explore,0.0007767574450751313,107008
+ranking,CatBoostClassifier,10,recall,explore,0.0018014604073185905,107008
+ranking,CatBoostClassifier,20,ndcg,overall,0.44194695391854905,131209
+ranking,CatBoostClassifier,20,recall,overall,0.4634075704670236,131209
+ranking,CatBoostClassifier,20,ndcg,repeat,0.6075728098377267,122607
+ranking,CatBoostClassifier,20,recall,repeat,0.7585747094631441,122607
+ranking,CatBoostClassifier,20,ndcg,explore,0.003418576745429632,107008
+ranking,CatBoostClassifier,20,recall,explore,0.009668792008053154,107008
