@@ -1,0 +1,4 @@
+segment,recall,users,scope
+overall,0.6835309419516102,131209,all_users
+repeat,0.9959429560557628,121861,all_users
+explore,0.24297703499787915,106981,all_users

@@ -1,0 +1,73 @@
+method,k,metric,segment,value,groups
+Heuristic 2:1,10,ndcg,overall,0.33840513441920245,1000
+Heuristic 2:1,10,recall,overall,0.27480486994817815,1000
+Heuristic 2:1,10,ndcg,repeat,0.4410093046171545,914
+Heuristic 2:1,10,recall,repeat,0.4525560591500932,914
+Heuristic 2:1,10,ndcg,explore,0.009983522530292745,828
+Heuristic 2:1,10,recall,explore,0.014610372268731305,828
+Heuristic 2:1,20,ndcg,overall,0.3640453627034984,1000
+Heuristic 2:1,20,recall,overall,0.3881726384375672,1000
+Heuristic 2:1,20,ndcg,repeat,0.5066069649121239,914
+Heuristic 2:1,20,recall,repeat,0.6420244740205465,914
+Heuristic 2:1,20,ndcg,explore,0.013358203671223326,828
+Heuristic 2:1,20,recall,explore,0.02434463446000319,828
+CatBoostClassifier,10,ndcg,overall,0.41706280134735896,1000
+CatBoostClassifier,10,recall,overall,0.34596008662583166,1000
+CatBoostClassifier,10,ndcg,repeat,0.5505351218354094,914
+CatBoostClassifier,10,recall,repeat,0.5808086657793741,914
+CatBoostClassifier,10,ndcg,explore,0.0011520282844710913,828
+CatBoostClassifier,10,recall,explore,0.002587991718426501,828
+CatBoostClassifier,20,ndcg,overall,0.4290608528872141,1000
+CatBoostClassifier,20,recall,overall,0.44824707322103996,1000
+CatBoostClassifier,20,ndcg,repeat,0.6063998140387955,914
+CatBoostClassifier,20,recall,repeat,0.7551600208830114,914
+CatBoostClassifier,20,ndcg,explore,0.002783814795443787,828
+CatBoostClassifier,20,recall,explore,0.00669365965418597,828
+CatBoostRanker ALL,10,ndcg,overall,0.4160691443729068,1000
+CatBoostRanker ALL,10,recall,overall,0.34426656523002447,1000
+CatBoostRanker ALL,10,ndcg,repeat,0.5487540513858817,914
+CatBoostRanker ALL,10,recall,repeat,0.5765065471232693,914
+CatBoostRanker ALL,10,ndcg,explore,0.001610111631418026,828
+CatBoostRanker ALL,10,recall,explore,0.0036828777770806756,828
+CatBoostRanker ALL,20,ndcg,overall,0.43047746211074794,1000
+CatBoostRanker ALL,20,recall,overall,0.45180971075866116,1000
+CatBoostRanker ALL,20,ndcg,repeat,0.6078443866674255,914
+CatBoostRanker ALL,20,recall,repeat,0.7587316562500412,914
+CatBoostRanker ALL,20,ndcg,explore,0.0038270062202621904,828
+CatBoostRanker ALL,20,recall,explore,0.00998067054989252,828
+CatBoostRanker BASE,10,ndcg,overall,0.41689392931209807,1000
+CatBoostRanker BASE,10,recall,overall,0.3452177520042453,1000
+CatBoostRanker BASE,10,ndcg,repeat,0.5507841501364337,914
+CatBoostRanker BASE,10,recall,repeat,0.5800451098906496,914
+CatBoostRanker BASE,10,ndcg,explore,0.000977915389955038,828
+CatBoostRanker BASE,10,recall,explore,0.0019096241922328878,828
+CatBoostRanker BASE,20,ndcg,overall,0.4305716024440694,1000
+CatBoostRanker BASE,20,recall,overall,0.45255418693391664,1000
+CatBoostRanker BASE,20,ndcg,repeat,0.6083253750068468,914
+CatBoostRanker BASE,20,recall,repeat,0.7591302363377277,914
+CatBoostRanker BASE,20,ndcg,explore,0.003956024997645755,828
+CatBoostRanker BASE,20,recall,explore,0.01074874411544892,828
+CatBoostRanker BASE + INTERVAL,10,ndcg,overall,0.4188923977232088,1000
+CatBoostRanker BASE + INTERVAL,10,recall,overall,0.34680614780665325,1000
+CatBoostRanker BASE + INTERVAL,10,ndcg,repeat,0.5527613729966698,914
+CatBoostRanker BASE + INTERVAL,10,recall,repeat,0.582403698152236,914
+CatBoostRanker BASE + INTERVAL,10,ndcg,explore,0.0009419062705375235,828
+CatBoostRanker BASE + INTERVAL,10,recall,explore,0.0019671351193090323,828
+CatBoostRanker BASE + INTERVAL,20,ndcg,overall,0.4314271029326737,1000
+CatBoostRanker BASE + INTERVAL,20,recall,overall,0.45178862905510425,1000
+CatBoostRanker BASE + INTERVAL,20,ndcg,repeat,0.6093647620376169,914
+CatBoostRanker BASE + INTERVAL,20,recall,repeat,0.7600336699610808,914
+CatBoostRanker BASE + INTERVAL,20,ndcg,explore,0.003723798482650902,828
+CatBoostRanker BASE + INTERVAL,20,recall,explore,0.009962282187682643,828
+CatBoostRanker BASE + CLOCK,10,ndcg,overall,0.4170268183101053,1000
+CatBoostRanker BASE + CLOCK,10,recall,overall,0.3455434910913639,1000
+CatBoostRanker BASE + CLOCK,10,ndcg,repeat,0.5503495463831928,914
+CatBoostRanker BASE + CLOCK,10,recall,repeat,0.5814134468517355,914
+CatBoostRanker BASE + CLOCK,10,ndcg,explore,0.001060158595839417,828
+CatBoostRanker BASE + CLOCK,10,recall,explore,0.0021396679005374654,828
+CatBoostRanker BASE + CLOCK,20,ndcg,overall,0.4295223548640562,1000
+CatBoostRanker BASE + CLOCK,20,recall,overall,0.44968836963215847,1000
+CatBoostRanker BASE + CLOCK,20,ndcg,repeat,0.6063606226395709,914
+CatBoostRanker BASE + CLOCK,20,recall,repeat,0.7561410891056808,914
+CatBoostRanker BASE + CLOCK,20,ndcg,explore,0.003929878102383255,828
+CatBoostRanker BASE + CLOCK,20,recall,explore,0.010777499578986993,828

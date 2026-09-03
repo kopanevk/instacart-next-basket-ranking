@@ -1,0 +1,60 @@
+{
+  "dataset": {
+    "all_negative_groups": 5363,
+    "candidate_rows": 27012118,
+    "groups": 131209,
+    "mean_candidates_per_group": 205.8709234884802,
+    "memory_mib": 1854.775339126587,
+    "positive_rate": 0.03403568724229622,
+    "positive_rows": 919376,
+    "train_rows": 21611122,
+    "train_users": 104967,
+    "validation_rows": 5400996,
+    "validation_users": 26242
+  },
+  "hardware": {
+    "logical_cpus": 10,
+    "machine": "arm64",
+    "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+    "python": "3.14.6"
+  },
+  "run": {
+    "all_evaluation_users": 131209,
+    "classifier_iterations": 120,
+    "component_k": 150,
+    "depth": 7,
+    "learning_rate": 0.15,
+    "max_neighbors": 100,
+    "peak_rss_mib": 8483.328125,
+    "ranker_iterations": 30,
+    "sample_users": 0,
+    "seed": 42,
+    "wall_seconds": 1870.8724089999996
+  },
+  "timings_seconds": {
+    "CatBoostRanker ALL_fit": 407.8187737090011,
+    "CatBoostRanker ALL_train_pool": 5.992525124998792,
+    "CatBoostRanker ALL_validation_pool": 1.4274969580001198,
+    "CatBoostRanker BASE + CLOCK_fit": 359.107510875001,
+    "CatBoostRanker BASE + CLOCK_train_pool": 5.242251499999838,
+    "CatBoostRanker BASE + CLOCK_validation_pool": 1.209607083001174,
+    "CatBoostRanker BASE + INTERVAL_fit": 369.3907042089995,
+    "CatBoostRanker BASE + INTERVAL_train_pool": 5.248737499998242,
+    "CatBoostRanker BASE + INTERVAL_validation_pool": 1.2626107079995563,
+    "CatBoostRanker BASE_fit": 384.3090884589983,
+    "CatBoostRanker BASE_train_pool": 5.451544708997972,
+    "CatBoostRanker BASE_validation_pool": 1.29419470799985,
+    "assemble_ranking_features": 16.285535582999728,
+    "attach_groups_and_labels": 12.871703499997238,
+    "build_candidate_pool": 17.173580709000817,
+    "build_feature_tables": 4.877738374998444,
+    "classifier_fit": 207.01074987500033,
+    "classifier_train_pool": 4.777904708000278,
+    "classifier_validation_pool": 1.160813500002405,
+    "fit_co_visitation": 6.424383333000151,
+    "load_data": 3.0363982079979905,
+    "materialize_history": 1.7794845829994301,
+    "retrieve_covis": 19.245639792003203,
+    "retrieve_personal": 2.9990368750004563
+  }
+}
